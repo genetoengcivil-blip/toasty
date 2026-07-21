@@ -1,0 +1,148 @@
+"use client";
+
+import { motion } from "framer-motion";
+import { Clock } from "lucide-react";
+
+export default function Hero() {
+  return (
+    <section
+      id="inicio"
+      className="relative min-h-screen flex items-center justify-center overflow-hidden"
+      style={{ background: "var(--bg-page)" }}
+    >
+      {/* Video background */}
+      <video
+        autoPlay
+        loop
+        muted
+        playsInline
+        preload="auto"
+        className="absolute inset-0 w-full h-full object-cover"
+        style={{ filter: "brightness(0.4) saturate(1.2)" }}
+      >
+        <source src="/images/toasty.mp4" type="video/mp4" />
+      </video>
+      <div
+        className="absolute inset-0"
+        style={{
+          background:
+            "linear-gradient(to bottom, rgba(6,6,6,0.3) 0%, rgba(6,6,6,0.1) 40%, rgba(6,6,6,0.7) 80%, var(--bg-page) 100%)",
+        }}
+      />
+
+
+
+      {/* Content */}
+      <div
+        className="relative z-10 text-center px-6 max-w-4xl mx-auto"
+        style={{ animation: "fadeInUp 1s ease forwards" }}
+      >
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.2, duration: 0.8 }}
+          className="mb-6"
+        >
+          <span
+            className="inline-block"
+            style={{
+              padding: "8px 24px",
+              borderRadius: "50px",
+              fontSize: "0.7rem",
+              fontWeight: 600,
+              letterSpacing: "2px",
+              background: "rgba(255,255,255,0.03)",
+              border: "1px solid rgba(200,148,62,0.2)",
+              color: "#E0B860",
+              backdropFilter: "blur(10px)",
+              textTransform: "uppercase",
+            }}
+          >
+            Premium Toast Restaurant
+          </span>
+        </motion.div>
+
+        <motion.h1
+          initial={{ opacity: 0, y: 40 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.35, duration: 0.8 }}
+          className="leading-none mb-3"
+          style={{
+            fontFamily: "var(--font-playfair)",
+            fontSize: "clamp(4rem, 10vw, 9rem)",
+            fontWeight: 800,
+            color: "white",
+            letterSpacing: "-0.03em",
+          }}
+        >
+          TOASTY<span style={{ color: "#C8943E" }}>®</span>
+        </motion.h1>
+
+        <motion.p
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.5, duration: 0.8 }}
+          className="mb-10"
+          style={{
+            fontSize: "clamp(1.1rem, 2.5vw, 1.6rem)",
+            color: "rgba(255,255,255,0.5)",
+            fontWeight: 300,
+            letterSpacing: "0.5px",
+          }}
+        >
+          Feito para você voltar.
+        </motion.p>
+
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.65, duration: 0.8 }}
+          className="flex flex-wrap gap-4 justify-center"
+          style={{ padding: "0 8px" }}
+        >
+          <a href="#salgados" className="btn-primary" style={{ fontSize: "clamp(0.85rem, 2vw, 1rem)", padding: "clamp(14px, 3vw, 18px) clamp(24px, 5vw, 40px)" }}>
+            Pedir Agora
+          </a>
+          <a href="#salgados" className="btn-outline" style={{ fontSize: "clamp(0.85rem, 2vw, 1rem)", padding: "clamp(13px, 3vw, 17px) clamp(22px, 5vw, 38px)" }}>
+            Explorar Cardápio
+          </a>
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.9, duration: 0.8 }}
+          className="flex items-center justify-center gap-2"
+          style={{ marginTop: "32px" }}
+        >
+          <Clock size={14} style={{ color: "#C8943E" }} />
+          <span style={{ fontSize: "0.8rem", color: "rgba(255,255,255,0.4)", fontWeight: 500 }}>
+            Entrega estimada em <span style={{ color: "rgba(255,255,255,0.7)", fontWeight: 600 }}>30–45 min</span>
+          </span>
+        </motion.div>
+      </div>
+
+      {/* Scroll indicator */}
+      <div
+        className="absolute left-1/2"
+        style={{
+          bottom: "40px",
+          transform: "translateX(-50%)",
+          animation: "float 2.5s ease-in-out infinite",
+        }}
+      >
+        <svg
+          width="28"
+          height="28"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="rgba(255,255,255,0.3)"
+          strokeWidth="1.5"
+        >
+          <line x1="12" y1="5" x2="12" y2="19" />
+          <polyline points="19 12 12 19 5 12" />
+        </svg>
+      </div>
+    </section>
+  );
+}

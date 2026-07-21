@@ -1,0 +1,124 @@
+import type { Metadata } from "next";
+import { Geist, Geist_Mono, Inter, Playfair_Display } from "next/font/google";
+import "./globals.css";
+import { AuthProvider } from "@/components/AuthProvider";
+import { ToastProvider } from "@/components/Toast";
+import { ThemeProvider } from "@/components/ThemeProvider";
+import ErrorBoundary from "@/components/ErrorBoundary";
+import PageLoader from "@/components/PageLoader";
+import CartFly from "@/components/CartFly";
+
+const geistSans = Geist({
+  variable: "--font-geist-sans",
+  subsets: ["latin"],
+});
+
+const geistMono = Geist_Mono({
+  variable: "--font-geist-mono",
+  subsets: ["latin"],
+});
+
+const inter = Inter({
+  variable: "--font-inter",
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "600", "700", "800", "900"],
+});
+
+const playfair = Playfair_Display({
+  variable: "--font-playfair",
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700", "800", "900"],
+});
+
+export const metadata: Metadata = {
+  title: "TOASTY® — Feito para você voltar",
+  description:
+    "Premium Toast Restaurant. Sanduíches redondos tostados artesanais com ingredientes selecionados. Peça agora.",
+  keywords: [
+    "toasty",
+    "sanduíche",
+    "toast",
+    "restaurante",
+    "premium",
+    "delivery",
+    "cardápio",
+  ],
+  openGraph: {
+    title: "TOASTY® — Feito para você voltar",
+    description:
+      "Premium Toast Restaurant. Sanduíches redondos tostados artesanais.",
+    url: "https://toasty.com.br",
+    siteName: "TOASTY",
+    images: [
+      {
+        url: "/og-image.jpg",
+        width: 1200,
+        height: 630,
+        alt: "TOASTY — Premium Toast Restaurant",
+      },
+    ],
+    locale: "pt_BR",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "TOASTY® — Feito para você voltar",
+    description: "Premium Toast Restaurant.",
+    images: ["/og-image.jpg"],
+  },
+  manifest: "/manifest.json",
+  icons: {
+    icon: "/favicon.ico",
+  },
+};
+
+const schemaData = {
+  "@context": "https://schema.org",
+  "@type": "Restaurant",
+  name: "TOASTY",
+  description:
+    "Premium Toast Restaurant — Sanduíches redondos tostados artesanais.",
+  url: "https://toasty.com.br",
+  servesCuisine: "Sanduíches",
+  priceRange: "$$",
+  address: {
+    "@type": "PostalAddress",
+    addressLocality: "São Paulo",
+    addressRegion: "SP",
+    addressCountry: "BR",
+  },
+  menu: "https://toasty.com.br#cardapio",
+};
+
+export default function RootLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
+  return (
+    <html
+      lang="pt-BR"
+      className={`${geistSans.variable} ${geistMono.variable} ${inter.variable} ${playfair.variable} h-full antialiased`}
+    >
+      <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaData) }}
+        />
+      </head>
+      <body className="min-h-full flex flex-col">
+        <ErrorBoundary>
+          <ThemeProvider>
+            <AuthProvider>
+              <ToastProvider>
+                <PageLoader />
+                <CartFly />
+                {children}
+              </ToastProvider>
+            </AuthProvider>
+          </ThemeProvider>
+        </ErrorBoundary>
+      </body>
+    </html>
+  );
+}
