@@ -170,10 +170,10 @@ export const products: Product[] = [
 ];
 
 export const drinks = [
-  { id: "red-berry", name: "Red Berry Soda", description: "Mix de frutas vermelhas com gas natural. 400ml.", ingredients: ["Frutas vermelhas", "Gás natural"], price: 18.9, image: "/images/toasty berry soda 03.png", emoji: "🥓", category: "drink" as const },
-  { id: "tropical-passion", name: "Tropical Passion", description: "Maracujá fresco com toque de laranja. 400ml.", ingredients: ["Maracujá", "Laranja"], price: 18.9, image: "/images/toasty tropical soda 03.png", emoji: "🥭", category: "drink" as const },
-  { id: "citrus-fresh", name: "Citrus Fresh", description: "Limão siciliano com hortelã e gelo. 400ml.", ingredients: ["Limão siciliano", "Hortelã", "Gelo"], price: 18.9, image: "/images/toasty citrus fresh 03.png", emoji: "🍋", category: "drink" as const },
-  { id: "kiwi-breeze", name: "Kiwi Breeze", description: "Kiwi natural com sprite e hortelã. 400ml.", ingredients: ["Kiwi", "Sprite", "Hortelã"], price: 18.9, image: "/images/toasty kiwi breeze 03.png", emoji: "🥝", category: "drink" as const },
+  { id: "red-berry", name: "Red Berry Soda", description: "Bebida a base de soda com morango.", ingredients: ["Soda", "Morango"], price: 18.9, image: "/images/toasty berry soda 03.png", emoji: "🍓", category: "drink" as const },
+  { id: "tropical-passion", name: "Tropical Passion", description: "Bebida a base de soda com maracujá e laranja.", ingredients: ["Soda", "Maracujá", "Laranja"], price: 18.9, image: "/images/toasty tropical soda 03.png", emoji: "🥭", category: "drink" as const },
+  { id: "citrus-fresh", name: "Citrus Fresh", description: "Bebida a base de soda com limão siciliano e hortelã.", ingredients: ["Soda", "Limão siciliano", "Hortelã"], price: 18.9, image: "/images/toasty citrus fresh 03.png", emoji: "🍋", category: "drink" as const },
+  { id: "kiwi-breeze", name: "Kiwi Breeze", description: "Bebida a base de soda com kiwi e hortelã.", ingredients: ["Soda", "Kiwi", "Hortelã"], price: 18.9, image: "/images/toasty kiwi breeze 03.png", emoji: "🥝", category: "drink" as const },
   { id: "coca-cola", name: "Coca-Cola", description: "Coca-Cola gelada lata 350ml.", ingredients: ["Coca-Cola 350ml"], price: 8.9, image: "/images/coca cola.png", emoji: "🥤", category: "drink" as const },
   { id: "coca-cola-1l", name: "Coca-Cola 1L", description: "Coca-Cola gelada garrafa 1 litro.", ingredients: ["Coca-Cola 1L"], price: 18.9, image: "/images/coca cola 1 litro.png", emoji: "🥤", category: "drink" as const },
   { id: "guarana", name: "Guaraná", description: "Guaraná Antarctica gelado lata 350ml.", ingredients: ["Guaraná Antarctica 350ml"], price: 8.9, image: "/images/guarana antartica.png", emoji: "🥤", category: "drink" as const },
