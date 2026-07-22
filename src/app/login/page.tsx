@@ -23,7 +23,7 @@ function formatCEP(value: string): string {
 }
 
 export default function LoginPage() {
-  const { signIn, user } = useAuth();
+  const { signIn, signOut, user } = useAuth();
   const router = useRouter();
   const [isSignUp, setIsSignUp] = useState(false);
   const [name, setName] = useState("");
@@ -60,12 +60,29 @@ export default function LoginPage() {
 
   if (user) {
     return (
-      <div style={{ minHeight: "100vh", background: "var(--bg-page)", display: "flex", alignItems: "center", justifyContent: "center" }}>
-        <div style={{ textAlign: "center" }}>
-          <p style={{ color: "var(--text-secondary)", marginBottom: "16px" }}>Você já está logado.</p>
-          <Link href="/pedidos" className="btn-primary" style={{ padding: "14px 32px", fontSize: "0.9rem" }}>
-            Ver Meus Pedidos
-          </Link>
+      <div style={{ minHeight: "100vh", background: "var(--bg-page)", display: "flex", alignItems: "center", justifyContent: "center", padding: "20px" }}>
+        <div style={{ textAlign: "center", maxWidth: "360px" }}>
+          <Image src="/images/logo.png" alt="TOASTY" width={56} height={56} style={{ borderRadius: "14px", margin: "0 auto 20px", display: "block" }} />
+          <p style={{ color: "var(--text-secondary)", marginBottom: "24px", fontSize: "0.95rem" }}>
+            Você já está logado, <span style={{ color: "#C8943E", fontWeight: 600 }}>{user.email}</span>
+          </p>
+          <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+            <Link href="/" className="btn-primary" style={{ padding: "14px 32px", fontSize: "0.9rem", textDecoration: "none" }}>
+              Ver Cardápio
+            </Link>
+            <Link href="/pedidos" className="btn-primary" style={{ padding: "14px 32px", fontSize: "0.9rem", textDecoration: "none" }}>
+              Meus Pedidos
+            </Link>
+            <Link href="/perfil" className="btn-primary" style={{ padding: "14px 32px", fontSize: "0.9rem", textDecoration: "none" }}>
+              Meu Perfil
+            </Link>
+            <button
+              onClick={async () => { await signOut(); router.push("/"); }}
+              style={{ padding: "14px 32px", fontSize: "0.9rem", background: "none", border: "1px solid var(--border-light)", borderRadius: "50px", color: "var(--text-secondary)", cursor: "pointer", fontWeight: 600 }}
+            >
+              Sair da Conta
+            </button>
+          </div>
         </div>
       </div>
     );

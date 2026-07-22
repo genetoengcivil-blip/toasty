@@ -3,13 +3,19 @@
 import { useState, useEffect, useCallback, createContext, useContext } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Check } from "lucide-react";
+import Image from "next/image";
 
 interface Toast {
   id: number;
   message: string;
+  image?: string;
 }
 
-const ToastContext = createContext<{ showToast: (msg: string) => void }>({ showToast: () => {} });
+interface ToastContextType {
+  showToast: (message: string, image?: string) => void;
+}
+
+const ToastContext = createContext<ToastContextType>({ showToast: () => {} });
 
 export function useToast() {
   return useContext(ToastContext);
@@ -19,9 +25,9 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
   const [toasts, setToasts] = useState<Toast[]>([]);
   let nextId = 0;
 
-  const showToast = useCallback((message: string) => {
+  const showToast = useCallback((message: string, image?: string) => {
     const id = ++nextId;
-    setToasts((prev) => [...prev, { id, message }]);
+    setToasts((prev) => [...prev, { id, message, image }]);
     setTimeout(() => {
       setToasts((prev) => prev.filter((t) => t.id !== id));
     }, 2200);
@@ -43,7 +49,7 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
                 background: "var(--bg-card)",
                 border: "1px solid rgba(200,148,62,0.25)",
                 borderRadius: "50px",
-                padding: "10px 20px",
+                padding: toast.image ? "6px 18px 6px 6px" : "10px 20px",
                 display: "flex",
                 alignItems: "center",
                 gap: "8px",
@@ -51,9 +57,15 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
                 boxShadow: "0 8px 32px rgba(0,0,0,0.3)",
               }}
             >
-              <div style={{ width: "22px", height: "22px", borderRadius: "50%", background: "#22c55e", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                <Check size={13} color="white" strokeWidth={3} />
-              </div>
+              {toast.image ? (
+                <div style={{ width: "32px", height: "32px", borderRadius: "50%", overflow: "hidden", position: "relative", flexShrink: 0 }}>
+                  <Image src={toast.image} alt="" fill sizes="32px" style={{ objectFit: "cover" }} />
+                </div>
+              ) : (
+                <div style={{ width: "22px", height: "22px", borderRadius: "50%", background: "#22c55e", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+                  <Check size={13} color="white" strokeWidth={3} />
+                </div>
+              )}
               <span style={{ color: "var(--text-primary)", fontSize: "0.85rem", fontWeight: 600, whiteSpace: "nowrap" }}>
                 {toast.message}
               </span>

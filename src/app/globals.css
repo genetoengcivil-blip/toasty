@@ -27,6 +27,8 @@
   --text-secondary: rgba(255,255,255,0.6);
   --text-muted: rgba(255,255,255,0.4);
   --text-faint: rgba(255,255,255,0.3);
+  --shadow-card: none;
+  --shadow-card-hover: 0 30px 50px rgba(0,0,0,0.7);
 }
 
 [data-theme="light"] {
@@ -34,7 +36,7 @@
   --bg-card: #FFFFFF;
   --bg-elevated: #F5F2EE;
   --bg-input: rgba(0,0,0,0.03);
-  --bg-glass: rgba(250,248,245,0.9);
+  --bg-glass: rgba(250,248,245,0.92);
   --border-subtle: rgba(0,0,0,0.06);
   --border-light: rgba(0,0,0,0.08);
   --border-input: rgba(0,0,0,0.12);
@@ -42,6 +44,8 @@
   --text-secondary: rgba(0,0,0,0.6);
   --text-muted: rgba(0,0,0,0.45);
   --text-faint: rgba(0,0,0,0.3);
+  --shadow-card: 0 2px 12px rgba(0,0,0,0.06);
+  --shadow-card-hover: 0 8px 30px rgba(0,0,0,0.1);
 }
 
 .themed-bg { background: var(--bg-page); }
@@ -199,12 +203,13 @@ body {
   cursor: pointer;
   transition: all 0.5s cubic-bezier(0.25, 0.1, 0.25, 1);
   position: relative;
+  box-shadow: var(--shadow-card);
 }
 
 .product-card:hover {
   transform: translateY(-8px);
   border-color: rgba(200, 148, 62, 0.35);
-  box-shadow: 0 30px 50px rgba(0, 0, 0, 0.25), 0 0 30px rgba(200, 148, 62, 0.08);
+  box-shadow: var(--shadow-card-hover), 0 0 30px rgba(200, 148, 62, 0.08);
 }
 
 @media (hover: none) {

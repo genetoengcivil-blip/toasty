@@ -49,7 +49,7 @@ export default function ProductDrawer() {
       });
     }
     addItemCustom(drawerProduct, selectedExtras, obs, extrasPrice, quantity);
-    showToast(`${quantity}x ${drawerProduct.name} adicionado`);
+    showToast(`${quantity}x ${drawerProduct.name} adicionado`, drawerProduct.image);
     setQuantity(1);
     setSelectedExtras([]);
     setObs("");
