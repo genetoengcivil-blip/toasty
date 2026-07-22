@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import { Clock } from "lucide-react";
+import Image from "next/image";
 
 export default function Hero() {
   return (
@@ -60,6 +61,23 @@ export default function Hero() {
           >
             Premium Toast Restaurant
           </span>
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ delay: 0.1, duration: 0.8 }}
+          className="mb-4"
+          style={{ display: "flex", justifyContent: "center" }}
+        >
+          <Image
+            src="/images/logo.png"
+            alt="TOASTY Logo"
+            width={80}
+            height={80}
+            style={{ borderRadius: "18px" }}
+            priority
+          />
         </motion.div>
 
         <motion.h1
