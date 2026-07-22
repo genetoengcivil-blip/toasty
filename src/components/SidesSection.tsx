@@ -1,10 +1,10 @@
 "use client";
 
 import { motion } from "framer-motion";
+import Image from "next/image";
 import { sides } from "@/data/products";
 import { formatPrice } from "@/lib/utils";
 import { useCartStore } from "@/store/cart";
-import { ShimmerImage } from "@/components/Shimmer";
 
 export default function SidesSection() {
   const { openDrawer } = useCartStore();
@@ -21,21 +21,26 @@ export default function SidesSection() {
         <div className="section-divider" />
       </div>
 
-      <div className="flex flex-col" style={{ gap: "10px" }}>
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: "repeat(2, 1fr)",
+          gap: "12px",
+        }}
+      >
         {sides.map((item, i) => (
           <motion.div
             key={item.id}
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-40px" }}
-            transition={{ duration: 0.6, delay: i * 0.06, ease: [0.25, 0.1, 0.25, 1] }}
-            className="flex items-center product-card"
+            transition={{ duration: 0.5, delay: i * 0.06, ease: [0.25, 0.1, 0.25, 1] }}
+            className="product-card"
             style={{
               background: "var(--bg-card)",
               border: "1px solid var(--border-subtle)",
-              borderRadius: "16px",
-              padding: "10px",
-              gap: "10px",
+              borderRadius: "18px",
+              overflow: "hidden",
               cursor: "pointer",
               transition: "all 0.3s",
             }}
@@ -51,44 +56,78 @@ export default function SidesSection() {
               })
             }
           >
-            <div className="flex-shrink-0 product-card-image" style={{ width: "72px", height: "72px", borderRadius: "14px", overflow: "hidden", background: "var(--bg-elevated)" }}>
-              <ShimmerImage
+            {/* Image */}
+            <div
+              className="product-card-image"
+              style={{
+                position: "relative",
+                width: "100%",
+                aspectRatio: "1",
+                background: "var(--bg-elevated)",
+                overflow: "hidden",
+              }}
+            >
+              <Image
                 src={item.image}
                 alt={item.name}
-                width={72}
-                height={72}
+                fill
+                sizes="(max-width: 480px) 50vw, 250px"
+                style={{ objectFit: "cover" }}
               />
             </div>
 
-            <div className="flex-1 min-w-0">
-              <h4 style={{ fontWeight: 700, fontSize: "0.9rem", color: "var(--text-primary)" }}>{item.name}</h4>
-              <p style={{ color: "var(--text-faint)", fontSize: "0.7rem", marginTop: "2px", lineHeight: 1.3, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+            {/* Info */}
+            <div style={{ padding: "12px" }}>
+              <h4
+                style={{
+                  fontWeight: 700,
+                  fontSize: "0.85rem",
+                  color: "var(--text-primary)",
+                  marginBottom: "4px",
+                  lineHeight: 1.2,
+                }}
+              >
+                {item.name}
+              </h4>
+              <p
+                style={{
+                  color: "var(--text-muted)",
+                  fontSize: "0.68rem",
+                  lineHeight: 1.3,
+                  display: "-webkit-box",
+                  WebkitLineClamp: 2,
+                  WebkitBoxOrient: "vertical",
+                  overflow: "hidden",
+                  marginBottom: "10px",
+                }}
+              >
                 {item.description}
               </p>
+
+              <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+                <span style={{ fontWeight: 800, fontSize: "0.95rem", color: "#C8943E" }}>
+                  {formatPrice(item.price)}
+                </span>
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    openDrawer({
+                      id: item.id,
+                      name: item.name,
+                      description: item.description,
+                      ingredients: item.ingredients,
+                      price: item.price,
+                      image: item.image,
+                      emoji: item.emoji,
+                    });
+                  }}
+                  className="btn-primary"
+                  style={{ fontSize: "0.65rem", padding: "8px 12px", borderRadius: "50px", minWidth: "auto", minHeight: "36px" }}
+                >
+                  + Adicionar
+                </button>
+              </div>
             </div>
-
-            <span style={{ fontWeight: 800, fontSize: "0.85rem", color: "#C8943E", flexShrink: 0 }}>
-              {formatPrice(item.price)}
-            </span>
-
-            <button
-              onClick={(e) => {
-                e.stopPropagation();
-                openDrawer({
-                  id: item.id,
-                  name: item.name,
-                  description: item.description,
-                  ingredients: item.ingredients,
-                  price: item.price,
-                  image: item.image,
-                  emoji: item.emoji,
-                });
-              }}
-              className="btn-primary flex-shrink-0"
-              style={{ fontSize: "0.7rem", padding: "10px 14px", minWidth: "44px", minHeight: "44px" }}
-            >
-              + Adicionar
-            </button>
           </motion.div>
         ))}
       </div>

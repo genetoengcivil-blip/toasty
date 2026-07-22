@@ -173,7 +173,7 @@ export default function LoginPage() {
         </Link>
 
         <div style={{ textAlign: "center", marginBottom: "32px" }}>
-          <Image src="/images/logo.png" alt="TOASTY" width={56} height={56} style={{ borderRadius: "14px", marginBottom: "16px" }} />
+          <Image src="/images/logo.png" alt="TOASTY" width={80} height={80} style={{ borderRadius: "16px", marginBottom: "20px", display: "block", margin: "0 auto 20px" }} />
           <h1 style={{ fontFamily: "var(--font-playfair)", fontWeight: 700, fontSize: "1.8rem", color: "var(--text-primary)", marginBottom: "8px" }}>
             {isSignUp ? "Criar Conta" : "Entrar"}
           </h1>

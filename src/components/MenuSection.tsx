@@ -1,10 +1,10 @@
 "use client";
 
 import { motion } from "framer-motion";
+import Image from "next/image";
 import { products, Product } from "@/data/products";
 import { formatPrice } from "@/lib/utils";
 import { useCartStore } from "@/store/cart";
-import { ShimmerImage } from "@/components/Shimmer";
 
 interface MenuSectionProps {
   id: string;
@@ -31,21 +31,26 @@ export default function MenuSection({ id, title, subtitle, category }: MenuSecti
         <div className="section-divider" />
       </div>
 
-      <div className="flex flex-col" style={{ gap: "10px" }}>
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: "repeat(2, 1fr)",
+          gap: "12px",
+        }}
+      >
         {filtered.map((product, i) => (
           <motion.div
             key={product.id}
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-40px" }}
-            transition={{ duration: 0.6, delay: i * 0.06, ease: [0.25, 0.1, 0.25, 1] }}
-            className="flex items-center product-card"
+            transition={{ duration: 0.5, delay: i * 0.06, ease: [0.25, 0.1, 0.25, 1] }}
+            className="product-card"
             style={{
               background: "var(--bg-card)",
               border: "1px solid var(--border-subtle)",
-              borderRadius: "16px",
-              padding: "10px",
-              gap: "10px",
+              borderRadius: "18px",
+              overflow: "hidden",
               cursor: "pointer",
               transition: "all 0.3s",
             }}
@@ -64,59 +69,118 @@ export default function MenuSection({ id, title, subtitle, category }: MenuSecti
               })
             }
           >
-            <div className="flex-shrink-0 product-card-image" style={{ width: "72px", height: "72px", borderRadius: "14px", overflow: "hidden", background: "var(--bg-elevated)" }}>
-              <ShimmerImage
+            {/* Image */}
+            <div
+              className="product-card-image"
+              style={{
+                position: "relative",
+                width: "100%",
+                aspectRatio: "1",
+                background: "var(--bg-elevated)",
+                overflow: "hidden",
+              }}
+            >
+              <Image
                 src={product.image}
                 alt={product.name}
-                width={72}
-                height={72}
+                fill
+                sizes="(max-width: 480px) 50vw, 250px"
+                style={{ objectFit: "cover" }}
               />
+              {product.badge && (
+                <span
+                  style={{
+                    position: "absolute",
+                    top: "8px",
+                    left: "8px",
+                    background: "#7B001C",
+                    color: "white",
+                    padding: "3px 8px",
+                    borderRadius: "50px",
+                    fontSize: "0.55rem",
+                    fontWeight: 700,
+                    zIndex: 2,
+                  }}
+                >
+                  {product.badge}
+                </span>
+              )}
+              {product.tag && (
+                <span
+                  style={{
+                    position: "absolute",
+                    top: "8px",
+                    right: "8px",
+                    background: "rgba(200,148,62,0.9)",
+                    color: "#060606",
+                    padding: "3px 8px",
+                    borderRadius: "50px",
+                    fontSize: "0.55rem",
+                    fontWeight: 700,
+                    zIndex: 2,
+                  }}
+                >
+                  {product.tag}
+                </span>
+              )}
             </div>
 
-            <div className="flex-1 min-w-0">
-              <div className="flex items-center gap-1.5" style={{ flexWrap: "wrap" }}>
-                <h4 style={{ fontWeight: 700, fontSize: "0.9rem", color: "var(--text-primary)" }}>{product.name}</h4>
-                {product.badge && (
-                  <span style={{ background: "#7B001C", color: "white", padding: "2px 6px", borderRadius: "50px", fontSize: "0.55rem", fontWeight: 700 }}>
-                    {product.badge}
-                  </span>
-                )}
-                {product.tag && (
-                  <span style={{ background: "rgba(200,148,62,0.15)", color: "#E0B860", padding: "2px 6px", borderRadius: "50px", fontSize: "0.55rem", border: "1px solid rgba(200,148,62,0.25)" }}>
-                    {product.tag}
-                  </span>
-                )}
-              </div>
-              <p style={{ color: "var(--text-faint)", fontSize: "0.7rem", marginTop: "2px", lineHeight: 1.3, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+            {/* Info */}
+            <div style={{ padding: "12px" }}>
+              <h4
+                style={{
+                  fontWeight: 700,
+                  fontSize: "0.85rem",
+                  color: "var(--text-primary)",
+                  marginBottom: "4px",
+                  lineHeight: 1.2,
+                }}
+              >
+                {product.name}
+              </h4>
+              <p
+                style={{
+                  color: "var(--text-muted)",
+                  fontSize: "0.68rem",
+                  lineHeight: 1.3,
+                  display: "-webkit-box",
+                  WebkitLineClamp: 2,
+                  WebkitBoxOrient: "vertical",
+                  overflow: "hidden",
+                  marginBottom: "10px",
+                }}
+              >
                 {product.description}
               </p>
+
+              {/* Price + button */}
+              <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+                <span style={{ fontWeight: 800, fontSize: "0.95rem", color: "#C8943E" }}>
+                  {formatPrice(product.price)}
+                </span>
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    openDrawer({
+                      id: product.id,
+                      name: product.name,
+                      description: product.description,
+                      ingredients: product.ingredients,
+                      price: product.price,
+                      image: product.image,
+                      emoji: product.emoji,
+                      badge: product.badge,
+                      tag: product.tag,
+                      extras: product.extras,
+                    });
+                  }}
+                  className="btn-primary"
+                  style={{ fontSize: "0.65rem", padding: "8px 12px", borderRadius: "50px", minWidth: "auto", minHeight: "36px" }}
+                >
+                  + Adicionar
+                </button>
+              </div>
             </div>
-
-            <span style={{ fontWeight: 800, fontSize: "0.85rem", color: "#C8943E", flexShrink: 0 }}>
-              {formatPrice(product.price)}
-            </span>
-
-            <button
-              onClick={(e) => {
-                e.stopPropagation();
-                openDrawer({
-                  id: product.id,
-                  name: product.name,
-                  description: product.description,
-                  ingredients: product.ingredients,
-                  price: product.price,
-                  image: product.image,
-                  emoji: product.emoji,
-                  badge: product.badge,
-                  tag: product.tag,
-                  extras: product.extras,
-                });
-              }}
-              className="btn-primary flex-shrink-0"
-              style={{ fontSize: "0.7rem", padding: "10px 14px", minWidth: "44px", minHeight: "44px" }}
-            >
-              + Adicionar
-            </button>
           </motion.div>
         ))}
       </div>

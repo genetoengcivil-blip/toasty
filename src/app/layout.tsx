@@ -7,6 +7,7 @@ import { ThemeProvider } from "@/components/ThemeProvider";
 import ErrorBoundary from "@/components/ErrorBoundary";
 import PageLoader from "@/components/PageLoader";
 import CartFly from "@/components/CartFly";
+import SocialNotification from "@/components/SocialNotification";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -113,6 +114,7 @@ export default function RootLayout({
               <ToastProvider>
                 <PageLoader />
                 <CartFly />
+                <SocialNotification />
                 {children}
               </ToastProvider>
             </AuthProvider>
