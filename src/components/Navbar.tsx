@@ -94,7 +94,7 @@ export default function Navbar() {
             >
               TOASTY
             </span>
-            <span style={{ color: "#C8943E", fontWeight: 700, fontSize: "0.9rem" }}>
+            <span style={{ color: "#C8943E", fontWeight: 700, fontSize: "0.55rem", verticalAlign: "super" }}>
               ®
             </span>
           </a>

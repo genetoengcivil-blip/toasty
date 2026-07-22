@@ -75,7 +75,7 @@ export default function Hero() {
             letterSpacing: "-0.03em",
           }}
         >
-          TOASTY<span style={{ color: "#C8943E" }}>®</span>
+          TOASTY<span style={{ color: "#C8943E", fontSize: "0.4em", verticalAlign: "super" }}>®</span>
         </motion.h1>
 
         <motion.p
