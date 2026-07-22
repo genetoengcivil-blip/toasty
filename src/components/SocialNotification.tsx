@@ -30,6 +30,7 @@ export default function SocialNotification() {
       .filter(({ i }) => !used.has(i));
     if (available.length === 0) {
       setUsed(new Set());
+      setVisible(false);
       return;
     }
 
@@ -101,13 +102,15 @@ export default function SocialNotification() {
               position: "relative",
             }}
           >
-            <Image
-              src={current.image}
-              alt={current.item}
-              fill
-              sizes="40px"
-              style={{ objectFit: "cover" }}
-            />
+            {current.image && (
+              <Image
+                src={current.image}
+                alt={current.item}
+                fill
+                sizes="40px"
+                style={{ objectFit: "cover" }}
+              />
+            )}
           </div>
           <div style={{ flex: 1, minWidth: 0 }}>
             <p style={{ color: "var(--text-primary)", fontWeight: 700, fontSize: "0.82rem", lineHeight: 1.3 }}>
