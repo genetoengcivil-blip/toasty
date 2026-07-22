@@ -37,7 +37,7 @@ export const products: Product[] = [
       "Carne moída temperada, queijo derretido, alface, tomate e molho especial da casa.",
     ingredients: [
       "Carne moída",
-      "Queijo cheddar",
+      "Queijo mussarela",
       "Alface",
       "Tomate",
       "Molho especial",
@@ -57,7 +57,7 @@ export const products: Product[] = [
       "Frango desfiado com temperos, queijo cremoso, rúcula e molho de ervas.",
     ingredients: [
       "Frango desfiado",
-      "Queijo muçarela",
+      "Queijo mussarela",
       "Rúcula",
       "Molho de ervas",
     ],
@@ -77,7 +77,7 @@ export const products: Product[] = [
     ingredients: [
       "Calabresa artesanal",
       "Cebola caramelizada",
-      "Provolone",
+      "Queijo mussarela",
       "Azeite",
     ],
     price: 32.9,
@@ -95,7 +95,7 @@ export const products: Product[] = [
       "Costela desfiada low & slow, queijo derretido, pickles de cebola e molho barbecue.",
     ingredients: [
       "Costela desfiada",
-      "Cheddar",
+      "Queijo mussarela",
       "Pickles de cebola",
       "Molho BBQ",
     ],
@@ -173,6 +173,7 @@ export const drinks = [
   { id: "coca-cola", name: "Coca-Cola", description: "Coca-Cola gelada lata 350ml.", ingredients: ["Coca-Cola 350ml"], price: 8.9, image: "/images/coca cola.png", emoji: "🥤", category: "drink" as const },
   { id: "guarana", name: "Guaraná", description: "Guaraná Antarctica gelado lata 350ml.", ingredients: ["Guaraná Antarctica 350ml"], price: 8.9, image: "/images/guarana antartica.png", emoji: "🥤", category: "drink" as const },
   { id: "fanta-laranja", name: "Fanta Laranja", description: "Fanta Laranja gelada lata 350ml.", ingredients: ["Fanta Laranja 350ml"], price: 8.9, image: "/images/fanta laranja.png", emoji: "🥤", category: "drink" as const },
+  { id: "pepsi", name: "Pepsi", description: "Pepsi gelada lata 350ml.", ingredients: ["Pepsi 350ml"], price: 8.9, image: "/images/pepsi.png", emoji: "🥤", category: "drink" as const },
 ];
 
 export const sides = [
@@ -180,6 +181,9 @@ export const sides = [
   { id: "onion-rings", name: "Onion Rings", description: "Anéis de cebola empanados crocantes.", ingredients: ["Cebola", "Farinha empanada", "Temperos"], price: 15.9, image: "/images/toasty onion ring 03.png", emoji: "🧅", category: "side" as const },
   { id: "chips-rustico", name: "Chips Rústico", description: "Chips de batata artesanal com sal rosa.", ingredients: ["Batata artesanal", "Sal rosa", "Temperos"], price: 15.9, image: "/images/toasty chips rustica 03.png", emoji: "🥨", category: "side" as const },
   { id: "salada-green", name: "Salada Green", description: "Mix de folhas, tomate cereja e vinagrete balsâmico.", ingredients: ["Mix de folhas", "Tomate cereja", "Vinagrete balsâmico"], price: 15.9, image: "/images/toasty salada green 03.png", emoji: "🥗", category: "side" as const },
+  { id: "molho-classico", name: "Molho Clássico", description: "Molho especial da casa Toasty.", ingredients: ["Molho especial"], price: 4.9, image: "/images/molho toasty classico.png", emoji: "🫙", category: "side" as const },
+  { id: "molho-bbq", name: "Molho BBQ", description: "Molho barbecue defumado Toasty.", ingredients: ["Molho barbecue"], price: 4.9, image: "/images/molho toasty barbecue.png", emoji: "🫙", category: "side" as const },
+  { id: "molho-mustard", name: "Molho Mustard", description: "Molho mostarda especial Toasty.", ingredients: ["Molho mostarda"], price: 4.9, image: "/images/molho toasty mustard.png", emoji: "🫙", category: "side" as const },
 ];
 
 export const combos: (Omit<Product, "extras"> & { originalPrice: number; savings: number })[] = [
