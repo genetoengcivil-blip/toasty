@@ -3,33 +3,45 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
-import { Heart, Share2, Minus, Plus } from "lucide-react";
+import { Heart, Share2, Minus, Plus, Star } from "lucide-react";
 import { drinks } from "@/data/products";
 import { formatPrice } from "@/lib/utils";
 import { useCartStore } from "@/store/cart";
 import { useToast } from "@/components/Toast";
+import { useAuth } from "@/components/AuthProvider";
+import { getFavorites, toggleFavorite } from "@/lib/favorites";
+import { supabase } from "@/lib/supabase-client";
 
-function getFavorites(): string[] {
-  if (typeof window === "undefined") return [];
-  try { return JSON.parse(localStorage.getItem("toasty-favs") || "[]"); } catch { return []; }
-}
-
-function toggleFavorite(id: string) {
-  const favs = getFavorites();
-  const next = favs.includes(id) ? favs.filter((f) => f !== id) : [...favs, id];
-  localStorage.setItem("toasty-favs", JSON.stringify(next));
-}
-
-function DrinkCard({ item }: { item: typeof drinks[0] }) {
+function DrinkCard({ item, favIds, onFavChange }: { item: typeof drinks[0]; favIds: string[]; onFavChange: (id: string, isFav: boolean) => void }) {
   const { openDrawer, addItemCustom } = useCartStore();
   const { showToast } = useToast();
+  const { user } = useAuth();
   const [qty, setQty] = useState(1);
-  const [fav, setFav] = useState(false);
+  const [avgRating, setAvgRating] = useState<number | null>(null);
 
-  useEffect(() => { setFav(getFavorites().includes(item.id)); }, [item.id]);
+  const fav = favIds.includes(item.id);
 
-  const handleFav = (e: React.MouseEvent) => { e.stopPropagation(); toggleFavorite(item.id); setFav(!fav); };
-  const handleShare = (e: React.MouseEvent) => { e.stopPropagation(); window.open(`https://wa.me/?text=${encodeURIComponent(`${item.emoji} *${item.name}* — ${formatPrice(item.price)}\n\n${item.description}`)}`, "_blank"); };
+  useEffect(() => {
+    supabase.from("reviews").select("rating").then(({ data }) => {
+      if (data && data.length > 0) {
+        const avg = data.reduce((acc: number, r: { rating: number }) => acc + r.rating, 0) / data.length;
+        setAvgRating(Math.round(avg * 10) / 10);
+      }
+    });
+  }, [item.id]);
+
+  const handleFav = async (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (!user) return;
+    const isNowFav = await toggleFavorite(user.id, item.id);
+    onFavChange(item.id, isNowFav);
+  };
+
+  const handleShare = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    window.open(`https://wa.me/?text=${encodeURIComponent(`${item.emoji} *${item.name}* — ${formatPrice(item.price)}\n\n${item.description}`)}`, "_blank");
+  };
+
   const handleQuickAdd = (e: React.MouseEvent) => {
     e.stopPropagation();
     addItemCustom({ id: item.id, name: item.name, description: item.description, ingredients: item.ingredients, price: item.price, image: item.image, emoji: item.emoji }, [], "", 0, qty);
@@ -59,7 +71,10 @@ function DrinkCard({ item }: { item: typeof drinks[0] }) {
         </div>
       </div>
       <div style={{ padding: "12px" }}>
-        <h4 style={{ fontWeight: 700, fontSize: "0.85rem", color: "var(--text-primary)", marginBottom: "4px", lineHeight: 1.2 }}>{item.name}</h4>
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "2px" }}>
+          <h4 style={{ fontWeight: 700, fontSize: "0.85rem", color: "var(--text-primary)", lineHeight: 1.2 }}>{item.name}</h4>
+          {avgRating && <div style={{ display: "flex", alignItems: "center", gap: "3px" }}><Star size={12} fill="#C8943E" color="#C8943E" /><span style={{ fontSize: "0.7rem", fontWeight: 600, color: "#C8943E" }}>{avgRating}</span></div>}
+        </div>
         <p style={{ color: "var(--text-muted)", fontSize: "0.68rem", lineHeight: 1.3, display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical", overflow: "hidden", marginBottom: "10px" }}>{item.description}</p>
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
           <span style={{ fontWeight: 800, fontSize: "0.95rem", color: "#C8943E" }}>{formatPrice(item.price)}</span>
@@ -75,6 +90,18 @@ function DrinkCard({ item }: { item: typeof drinks[0] }) {
 }
 
 export default function DrinksSection() {
+  const { user } = useAuth();
+  const [favIds, setFavIds] = useState<string[]>([]);
+
+  useEffect(() => {
+    if (!user) { setFavIds([]); return; }
+    getFavorites(user.id).then(setFavIds);
+  }, [user]);
+
+  const handleFavChange = (productId: string, isFav: boolean) => {
+    setFavIds((prev) => isFav ? [...prev, productId] : prev.filter((id) => id !== productId));
+  };
+
   const autorais = drinks.filter((d) => d.price === 18.9);
   const lata = drinks.filter((d) => d.price === 8.9);
 
@@ -88,13 +115,13 @@ export default function DrinksSection() {
       <div style={{ marginBottom: "32px" }}>
         <p style={{ fontSize: "0.7rem", fontWeight: 700, color: "var(--text-faint)", textTransform: "uppercase", letterSpacing: "1px", marginBottom: "12px" }}>Autorais — 400ml</p>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: "12px" }}>
-          {autorais.map((item) => <DrinkCard key={item.id} item={item} />)}
+          {autorais.map((item) => <DrinkCard key={item.id} item={item} favIds={favIds} onFavChange={handleFavChange} />)}
         </div>
       </div>
       <div>
         <p style={{ fontSize: "0.7rem", fontWeight: 700, color: "var(--text-faint)", textTransform: "uppercase", letterSpacing: "1px", marginBottom: "12px" }}>Refrigerantes Lata — 350ml</p>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: "12px" }}>
-          {lata.map((item) => <DrinkCard key={item.id} item={item} />)}
+          {lata.map((item) => <DrinkCard key={item.id} item={item} favIds={favIds} onFavChange={handleFavChange} />)}
         </div>
       </div>
     </section>

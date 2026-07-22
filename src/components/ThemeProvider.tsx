@@ -1,6 +1,8 @@
 "use client";
 
 import { createContext, useContext, useState, useEffect, useCallback } from "react";
+import { useAuth } from "@/components/AuthProvider";
+import { getTheme, saveTheme } from "@/lib/user-preferences";
 
 type Theme = "dark" | "light";
 
@@ -11,12 +13,9 @@ export function useTheme() {
 }
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
+  const { user } = useAuth();
   const [theme, setTheme] = useState<Theme>("dark");
-
-  useEffect(() => {
-    const saved = localStorage.getItem("toasty-theme") as Theme | null;
-    if (saved) setTheme(saved);
-  }, []);
+  const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
     if (typeof window !== "undefined" && "serviceWorker" in navigator) {
@@ -25,9 +24,24 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   useEffect(() => {
+    if (!user) {
+      setTheme("dark");
+      setLoaded(true);
+      return;
+    }
+    getTheme(user.id).then((t) => {
+      setTheme(t);
+      setLoaded(true);
+    });
+  }, [user]);
+
+  useEffect(() => {
+    if (!loaded) return;
     document.documentElement.setAttribute("data-theme", theme);
-    localStorage.setItem("toasty-theme", theme);
-  }, [theme]);
+    if (user) {
+      saveTheme(user.id, theme);
+    }
+  }, [theme, loaded, user]);
 
   const toggle = useCallback(() => {
     setTheme((prev) => (prev === "dark" ? "light" : "dark"));

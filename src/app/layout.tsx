@@ -109,16 +109,16 @@ export default function RootLayout({
       </head>
       <body className="min-h-full flex flex-col">
         <ErrorBoundary>
-          <ThemeProvider>
-            <AuthProvider>
+          <AuthProvider>
+            <ThemeProvider>
               <ToastProvider>
                 <PageLoader />
                 <CartFly />
                 <SocialNotification />
                 {children}
               </ToastProvider>
-            </AuthProvider>
-          </ThemeProvider>
+            </ThemeProvider>
+          </AuthProvider>
         </ErrorBoundary>
       </body>
     </html>

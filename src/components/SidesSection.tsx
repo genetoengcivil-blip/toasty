@@ -8,49 +8,43 @@ import { sides } from "@/data/products";
 import { formatPrice } from "@/lib/utils";
 import { useCartStore } from "@/store/cart";
 import { useToast } from "@/components/Toast";
+import { useAuth } from "@/components/AuthProvider";
+import { getFavorites, toggleFavorite } from "@/lib/favorites";
 import { supabase } from "@/lib/supabase-client";
 
-const WHATSAPP_NUMBER = "5583986667292";
-
-function getFavorites(): string[] {
-  if (typeof window === "undefined") return [];
-  try { return JSON.parse(localStorage.getItem("toasty-favs") || "[]"); } catch { return []; }
-}
-
-function toggleFavorite(id: string) {
-  const favs = getFavorites();
-  const next = favs.includes(id) ? favs.filter((f) => f !== id) : [...favs, id];
-  localStorage.setItem("toasty-favs", JSON.stringify(next));
-}
-
-function SideCard({ item, i }: { item: typeof sides[0]; i: number }) {
+function SideCard({ item, i, favIds, onFavChange }: { item: typeof sides[0]; i: number; favIds: string[]; onFavChange: (id: string, isFav: boolean) => void }) {
   const { openDrawer, addItemCustom } = useCartStore();
   const { showToast } = useToast();
+  const { user } = useAuth();
   const [qty, setQty] = useState(1);
-  const [fav, setFav] = useState(false);
+  const [avgRating, setAvgRating] = useState<number | null>(null);
+
+  const fav = favIds.includes(item.id);
 
   useEffect(() => {
-    setFav(getFavorites().includes(item.id));
+    supabase.from("reviews").select("rating").then(({ data }) => {
+      if (data && data.length > 0) {
+        const avg = data.reduce((acc: number, r: { rating: number }) => acc + r.rating, 0) / data.length;
+        setAvgRating(Math.round(avg * 10) / 10);
+      }
+    });
   }, [item.id]);
 
-  const handleFav = (e: React.MouseEvent) => {
+  const handleFav = async (e: React.MouseEvent) => {
     e.stopPropagation();
-    toggleFavorite(item.id);
-    setFav(!fav);
+    if (!user) return;
+    const isNowFav = await toggleFavorite(user.id, item.id);
+    onFavChange(item.id, isNowFav);
   };
 
   const handleShare = (e: React.MouseEvent) => {
     e.stopPropagation();
-    const text = `${item.emoji} *${item.name}* — ${formatPrice(item.price)}\n\n${item.description}`;
-    window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, "_blank");
+    window.open(`https://wa.me/?text=${encodeURIComponent(`${item.emoji} *${item.name}* — ${formatPrice(item.price)}\n\n${item.description}`)}`, "_blank");
   };
 
   const handleQuickAdd = (e: React.MouseEvent) => {
     e.stopPropagation();
-    addItemCustom(
-      { id: item.id, name: item.name, description: item.description, ingredients: item.ingredients, price: item.price, image: item.image, emoji: item.emoji },
-      [], "", 0, qty
-    );
+    addItemCustom({ id: item.id, name: item.name, description: item.description, ingredients: item.ingredients, price: item.price, image: item.image, emoji: item.emoji }, [], "", 0, qty);
     showToast(`${qty}x ${item.name} adicionado`, item.image);
     setQty(1);
   };
@@ -77,7 +71,10 @@ function SideCard({ item, i }: { item: typeof sides[0]; i: number }) {
         </div>
       </div>
       <div style={{ padding: "12px" }}>
-        <h4 style={{ fontWeight: 700, fontSize: "0.85rem", color: "var(--text-primary)", marginBottom: "4px", lineHeight: 1.2 }}>{item.name}</h4>
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "2px" }}>
+          <h4 style={{ fontWeight: 700, fontSize: "0.85rem", color: "var(--text-primary)", lineHeight: 1.2 }}>{item.name}</h4>
+          {avgRating && <div style={{ display: "flex", alignItems: "center", gap: "3px" }}><Star size={12} fill="#C8943E" color="#C8943E" /><span style={{ fontSize: "0.7rem", fontWeight: 600, color: "#C8943E" }}>{avgRating}</span></div>}
+        </div>
         <p style={{ color: "var(--text-muted)", fontSize: "0.68rem", lineHeight: 1.3, display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical", overflow: "hidden", marginBottom: "10px" }}>{item.description}</p>
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
           <span style={{ fontWeight: 800, fontSize: "0.95rem", color: "#C8943E" }}>{formatPrice(item.price)}</span>
@@ -93,6 +90,18 @@ function SideCard({ item, i }: { item: typeof sides[0]; i: number }) {
 }
 
 export default function SidesSection() {
+  const { user } = useAuth();
+  const [favIds, setFavIds] = useState<string[]>([]);
+
+  useEffect(() => {
+    if (!user) { setFavIds([]); return; }
+    getFavorites(user.id).then(setFavIds);
+  }, [user]);
+
+  const handleFavChange = (productId: string, isFav: boolean) => {
+    setFavIds((prev) => isFav ? [...prev, productId] : prev.filter((id) => id !== productId));
+  };
+
   return (
     <section id="acompanhamentos" style={{ padding: "48px 16px", maxWidth: "800px", margin: "0 auto" }}>
       <div style={{ textAlign: "center", marginBottom: "36px" }}>
@@ -101,7 +110,7 @@ export default function SidesSection() {
         <div className="section-divider" />
       </div>
       <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: "12px" }}>
-        {sides.map((item, i) => <SideCard key={item.id} item={item} i={i} />)}
+        {sides.map((item, i) => <SideCard key={item.id} item={item} i={i} favIds={favIds} onFavChange={handleFavChange} />)}
       </div>
     </section>
   );
