@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import { Search, X } from "lucide-react";
@@ -57,6 +57,7 @@ export default function MenuSearch() {
   const [activeCategory, setActiveCategory] = useState<Category>("todos");
   const [isFiltering, setIsFiltering] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
+  const resultsRef = useRef<HTMLDivElement>(null);
   const { openDrawer } = useCartStore();
 
   const allItems: AllItem[] = [...products, ...(sides as AllItem[]), ...(drinks as AllItem[]), ...(combos as AllItem[])];
@@ -75,7 +76,13 @@ export default function MenuSearch() {
   });
 
   useEffect(() => {
-    setIsFiltering(query.trim() !== "" || activeCategory !== "todos");
+    const filtering = query.trim() !== "" || activeCategory !== "todos";
+    setIsFiltering(filtering);
+    if (filtering && resultsRef.current) {
+      setTimeout(() => {
+        resultsRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+      }, 100);
+    }
   }, [query, activeCategory]);
 
   const handleOpen = (item: AllItem) => {
@@ -176,6 +183,7 @@ export default function MenuSearch() {
       <AnimatePresence>
         {isFiltering && (
           <motion.div
+            ref={resultsRef}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}

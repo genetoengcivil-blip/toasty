@@ -158,21 +158,6 @@ function ComboCard({ combo, index, onOpen }: { combo: typeof combos[number]; ind
               </span>
             )}
           </div>
-          {combo.savings && (
-            <span
-              style={{
-                background: "rgba(200,148,62,0.15)",
-                color: "#E0B860",
-                padding: "5px 14px",
-                borderRadius: "50px",
-                fontSize: "0.7rem",
-                fontWeight: 700,
-                border: "1px solid rgba(200,148,62,0.25)",
-              }}
-            >
-              -{formatDiscount(combo.savings, combo.originalPrice)}
-            </span>
-          )}
         </div>
 
         <button
@@ -192,7 +177,7 @@ function ComboCard({ combo, index, onOpen }: { combo: typeof combos[number]; ind
           className="btn-primary"
           style={{ width: "100%", padding: "14px", fontSize: "0.9rem" }}
         >
-          Comprar
+          Escolher
         </button>
       </div>
     </motion.div>

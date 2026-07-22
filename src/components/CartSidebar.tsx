@@ -364,7 +364,6 @@ export default function CartSidebar() {
                 ) : (
                   <Link
                     href="/login"
-                    onClick={handleClose}
                     className="btn-primary"
                     style={{ width: "100%", padding: "16px", fontSize: "0.95rem", textDecoration: "none", display: "flex", alignItems: "center", justifyContent: "center", gap: "8px" }}
                   >
