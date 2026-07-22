@@ -22,6 +22,13 @@ export default function ProductDrawer() {
     setObs("");
   }, [drawerProduct]);
 
+  useEffect(() => {
+    if (!drawerProduct) return;
+    const handleEsc = (e: KeyboardEvent) => { if (e.key === "Escape") closeDrawer(); };
+    window.addEventListener("keydown", handleEsc);
+    return () => window.removeEventListener("keydown", handleEsc);
+  }, [drawerProduct]);
+
   if (!drawerProduct) return null;
 
   const extras = drawerProduct.extras ?? [];

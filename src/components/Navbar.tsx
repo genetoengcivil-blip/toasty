@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X, ShoppingBag, User, LogOut, UserCircle, Sun, Moon } from "lucide-react";
+import { Menu, X, ShoppingBag, User, LogOut, UserCircle, Sun, Moon, Heart } from "lucide-react";
 import { useCartStore } from "@/store/cart";
 import { useAuth } from "@/components/AuthProvider";
 import { useTheme } from "@/components/ThemeProvider";
@@ -127,6 +127,25 @@ export default function Navbar() {
               onMouseLeave={(e) => (e.currentTarget.style.color = navColor)}
             >
               Meus Pedidos
+            </Link>
+            <Link
+              href="/favoritos"
+              className="no-underline transition-colors duration-300"
+              style={{
+                fontSize: "0.8rem",
+                fontWeight: 600,
+                textTransform: "uppercase",
+                letterSpacing: "1px",
+                color: navColor,
+                display: "flex",
+                alignItems: "center",
+                gap: "4px",
+              }}
+              onMouseEnter={(e) => (e.currentTarget.style.color = navColorHover)}
+              onMouseLeave={(e) => (e.currentTarget.style.color = navColor)}
+            >
+              <Heart size={12} />
+              Favoritos
             </Link>
           </div>
 
@@ -309,6 +328,21 @@ export default function Navbar() {
                 initial={{ opacity: 0, y: 16 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: (navLinks.length + 1) * 0.06 }}
+              >
+                <Link
+                  href="/favoritos"
+                  onClick={() => setMobileOpen(false)}
+                  className="text-2xl font-medium no-underline py-3 px-8 rounded-xl transition-all w-64 text-center block"
+                  style={{ color: "var(--text-secondary)", display: "flex", alignItems: "center", justifyContent: "center", gap: "8px" }}
+                >
+                  <Heart size={18} />
+                  Favoritos
+                </Link>
+              </motion.div>
+              <motion.div
+                initial={{ opacity: 0, y: 16 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: (navLinks.length + 2) * 0.06 }}
               >
                 {user ? (
                   <div className="flex flex-col items-center gap-3">

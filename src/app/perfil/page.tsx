@@ -6,19 +6,7 @@ import { ArrowLeft, User, Phone, MapPin, Building2, Mail, Loader2, Save, Lock, E
 import { useAuth } from "@/components/AuthProvider";
 import { useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabase-client";
-
-function formatPhone(value: string): string {
-  const digits = value.replace(/\D/g, "").slice(0, 11);
-  if (digits.length <= 2) return digits.length ? `(${digits}` : "";
-  if (digits.length <= 7) return `(${digits.slice(0, 2)}) ${digits.slice(2)}`;
-  return `(${digits.slice(0, 2)}) ${digits.slice(2, 7)}-${digits.slice(7)}`;
-}
-
-function formatCEP(value: string): string {
-  const digits = value.replace(/\D/g, "").slice(0, 8);
-  if (digits.length <= 5) return digits;
-  return `${digits.slice(0, 5)}-${digits.slice(5)}`;
-}
+import { formatPhone, formatCEP } from "@/lib/utils";
 
 export default function PerfilPage() {
   const { user, loading: authLoading } = useAuth();
@@ -142,6 +130,10 @@ export default function PerfilPage() {
 
   const handleChangePassword = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!currentPassword) {
+      setPasswordError("Digite a senha atual.");
+      return;
+    }
     if (!newPassword || newPassword.length < 6) {
       setPasswordError("A nova senha deve ter pelo menos 6 caracteres.");
       return;
@@ -149,6 +141,16 @@ export default function PerfilPage() {
     setSavingPassword(true);
     setPasswordError("");
     setPasswordSuccess("");
+
+    const { error: verifyError } = await supabase.auth.signInWithPassword({
+      email: user?.email || "",
+      password: currentPassword,
+    });
+    if (verifyError) {
+      setPasswordError("Senha atual incorreta.");
+      setSavingPassword(false);
+      return;
+    }
 
     const { error } = await supabase.auth.updateUser({ password: newPassword });
 
@@ -345,6 +347,26 @@ export default function PerfilPage() {
                 <Lock size={16} style={iconStyle} />
                 <input
                   type={showCurrentPassword ? "text" : "password"}
+                  placeholder="Senha atual"
+                  value={currentPassword}
+                  onChange={(e) => setCurrentPassword(e.target.value)}
+                  required
+                  style={{ ...inputStyle, paddingRight: "42px" }}
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowCurrentPassword(!showCurrentPassword)}
+                  style={{ position: "absolute", right: "12px", top: "50%", transform: "translateY(-50%)", background: "none", border: "none", color: "var(--text-faint)", cursor: "pointer", padding: "4px" }}
+                >
+                  {showCurrentPassword ? <EyeOff size={16} /> : <Eye size={16} />}
+                </button>
+              </div>
+            </div>
+            <div style={{ marginBottom: "14px" }}>
+              <div style={{ position: "relative" }}>
+                <Lock size={16} style={iconStyle} />
+                <input
+                  type={showNewPassword ? "text" : "password"}
                   placeholder="Nova senha"
                   value={newPassword}
                   onChange={(e) => setNewPassword(e.target.value)}

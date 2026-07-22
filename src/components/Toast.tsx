@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback, createContext, useContext } from "react";
+import { useState, useEffect, useCallback, useRef, createContext, useContext } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Check } from "lucide-react";
 import Image from "next/image";
@@ -23,10 +23,10 @@ export function useToast() {
 
 export function ToastProvider({ children }: { children: React.ReactNode }) {
   const [toasts, setToasts] = useState<Toast[]>([]);
-  let nextId = 0;
+  const nextIdRef = useRef(0);
 
   const showToast = useCallback((message: string, image?: string) => {
-    const id = ++nextId;
+    const id = ++nextIdRef.current;
     setToasts((prev) => [...prev, { id, message, image }]);
     setTimeout(() => {
       setToasts((prev) => prev.filter((t) => t.id !== id));

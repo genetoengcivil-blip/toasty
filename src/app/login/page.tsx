@@ -8,23 +8,13 @@ import Image from "next/image";
 import { useAuth } from "@/components/AuthProvider";
 import { useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabase-client";
-
-function formatPhone(value: string): string {
-  const digits = value.replace(/\D/g, "").slice(0, 11);
-  if (digits.length <= 2) return digits.length ? `(${digits}` : "";
-  if (digits.length <= 7) return `(${digits.slice(0, 2)}) ${digits.slice(2)}`;
-  return `(${digits.slice(0, 2)}) ${digits.slice(2, 7)}-${digits.slice(7)}`;
-}
-
-function formatCEP(value: string): string {
-  const digits = value.replace(/\D/g, "").slice(0, 8);
-  if (digits.length <= 5) return digits;
-  return `${digits.slice(0, 5)}-${digits.slice(5)}`;
-}
+import { useToast } from "@/components/Toast";
+import { formatPhone, formatCEP } from "@/lib/utils";
 
 export default function LoginPage() {
   const { signIn, signOut, user } = useAuth();
   const router = useRouter();
+  const { showToast } = useToast();
   const [isSignUp, setIsSignUp] = useState(false);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -130,7 +120,7 @@ export default function LoginPage() {
         });
       }
 
-      alert("Conta criada! Verifique seu email para confirmar.");
+      showToast("Conta criada! Verifique seu email para confirmar.");
       router.push("/pedidos");
     } else {
       const result = await signIn(email, password);

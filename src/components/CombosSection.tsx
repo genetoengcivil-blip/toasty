@@ -119,7 +119,7 @@ function ComboCard({ combo, index, onOpen }: { combo: typeof combos[number]; ind
             }}
           >
             <span>💰</span>
-            <span>Economize {formatDiscount(combo.savings)}</span>
+            <span>Economize {formatDiscount(combo.savings, combo.originalPrice)}</span>
           </div>
         )}
       </div>
@@ -170,7 +170,7 @@ function ComboCard({ combo, index, onOpen }: { combo: typeof combos[number]; ind
                 border: "1px solid rgba(200,148,62,0.25)",
               }}
             >
-              -{formatDiscount(combo.savings)}
+              -{formatDiscount(combo.savings, combo.originalPrice)}
             </span>
           )}
         </div>

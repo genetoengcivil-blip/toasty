@@ -46,6 +46,7 @@ export default function CartSidebar() {
   const { items, isOpen, toggleCart, updateQuantity, removeItem, total, saveOrder } = useCartStore();
   const { user } = useAuth();
   const [confirmed, setConfirmed] = useState(false);
+  const [confirming, setConfirming] = useState(false);
   const [showAddressForm, setShowAddressForm] = useState(false);
   const [deliveryAddress, setDeliveryAddress] = useState("");
   const [deliveryNeighborhood, setDeliveryNeighborhood] = useState("");
@@ -59,10 +60,12 @@ export default function CartSidebar() {
   }, [deliveryAddress, deliveryNeighborhood]);
 
   const handleConfirm = async () => {
-    if (!user) return;
+    if (!user || confirming) return;
+    setConfirming(true);
     snapshotRef.current = { items: [...items], total: total() };
     await saveOrder(user.id);
     setConfirmed(true);
+    setConfirming(false);
   };
 
   // Load saved address from profile
@@ -94,6 +97,13 @@ export default function CartSidebar() {
     snapshotRef.current = { items: [], total: 0 };
     toggleCart();
   };
+
+  useEffect(() => {
+    if (!isOpen) return;
+    const handleEsc = (e: KeyboardEvent) => { if (e.key === "Escape") handleClose(); };
+    window.addEventListener("keydown", handleEsc);
+    return () => window.removeEventListener("keydown", handleEsc);
+  }, [isOpen]);
 
   const displayItems = confirmed ? snapshotRef.current.items : items;
   const displayTotal = confirmed ? snapshotRef.current.total : total();
@@ -332,16 +342,17 @@ export default function CartSidebar() {
                 {user ? (
                   <button
                     onClick={handleConfirm}
+                    disabled={confirming}
                     className="btn-primary"
                     style={{
                       width: "100%",
                       padding: "16px",
                       fontSize: "0.95rem",
-                      opacity: belowMinimum ? 0.4 : 1,
-                      pointerEvents: belowMinimum ? "none" : "auto",
+                      opacity: belowMinimum || confirming ? 0.5 : 1,
+                      pointerEvents: belowMinimum || confirming ? "none" : "auto",
                     }}
                   >
-                    Finalizar Pedido
+                    {confirming ? "Confirmando..." : "Finalizar Pedido"}
                   </button>
                 ) : (
                   <Link
