@@ -48,9 +48,9 @@ export default function Hero() {
           <Image
             src="/images/logo.png"
             alt="TOASTY Logo"
-            width={100}
-            height={100}
-            style={{ borderRadius: "22px" }}
+            width={120}
+            height={120}
+            style={{ borderRadius: "24px", objectFit: "cover", objectPosition: "center 30%" }}
             priority
           />
         </motion.div>
@@ -61,9 +61,9 @@ export default function Hero() {
           transition={{ delay: 0.35, duration: 0.8 }}
           className="leading-none mb-3"
           style={{
-            fontFamily: "var(--font-playfair)",
+            fontFamily: "var(--font-poppins)",
             fontSize: "clamp(4rem, 10vw, 9rem)",
-            fontWeight: 800,
+            fontWeight: 900,
             color: "white",
             letterSpacing: "-0.03em",
           }}
