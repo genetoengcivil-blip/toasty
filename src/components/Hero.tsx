@@ -39,31 +39,6 @@ export default function Hero() {
         style={{ animation: "fadeInUp 1s ease forwards" }}
       >
         <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.2, duration: 0.8 }}
-          className="mb-6"
-        >
-          <span
-            className="inline-block"
-            style={{
-              padding: "8px 24px",
-              borderRadius: "50px",
-              fontSize: "0.7rem",
-              fontWeight: 600,
-              letterSpacing: "2px",
-              background: "rgba(255,255,255,0.03)",
-              border: "1px solid rgba(200,148,62,0.2)",
-              color: "#E0B860",
-              backdropFilter: "blur(10px)",
-              textTransform: "uppercase",
-            }}
-          >
-            Premium Toast Restaurant
-          </span>
-        </motion.div>
-
-        <motion.div
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ delay: 0.1, duration: 0.8 }}
@@ -73,9 +48,9 @@ export default function Hero() {
           <Image
             src="/images/logo.png"
             alt="TOASTY Logo"
-            width={80}
-            height={80}
-            style={{ borderRadius: "18px" }}
+            width={100}
+            height={100}
+            style={{ borderRadius: "22px" }}
             priority
           />
         </motion.div>
