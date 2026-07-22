@@ -2,21 +2,21 @@
 
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ShoppingBag } from "lucide-react";
+import Image from "next/image";
 
 const fakeOrders = [
-  { name: "Carolina S.", item: "Toasty Carne", emoji: "🥩" },
-  { name: "Rafael M.", item: "Combo Duplo", emoji: "🔥" },
-  { name: "Juliana P.", item: "Toasty Chicken", emoji: "🍗" },
-  { name: "Lucas R.", item: "Tropical Passion", emoji: "🥭" },
-  { name: "Fernanda L.", item: "Combo Família", emoji: "👑" },
-  { name: "Pedro H.", item: "Toasty Calabresa", emoji: "🌶️" },
-  { name: "Amanda B.", item: "Red Berry Soda", emoji: "🍓" },
-  { name: "Bruno T.", item: "Batata Rústica", emoji: "🥔" },
-  { name: "Camila D.", item: "Toasty Queijo", emoji: "🧀" },
-  { name: "Gustavo A.", item: "Combo Clássico", emoji: "✨" },
-  { name: "Isabela N.", item: "Onion Rings", emoji: "🧅" },
-  { name: "Thiago F.", item: "Citrus Fresh", emoji: "🍋" },
+  { name: "Carolina S.", item: "Toasty Carne", image: "/images/toasty classico 03.png" },
+  { name: "Rafael M.", item: "Combo Duplo", image: "/images/combo duplo.png" },
+  { name: "Juliana P.", item: "Toasty Chicken", image: "/images/toasty chicken 03.png" },
+  { name: "Lucas R.", item: "Tropical Passion", image: "/images/toasty tropical soda 03.png" },
+  { name: "Fernanda L.", item: "Combo Família", image: "/images/combo familia.png" },
+  { name: "Pedro H.", item: "Toasty Calabresa", image: "/images/toasty calabresa 03.png" },
+  { name: "Amanda B.", item: "Red Berry Soda", image: "/images/toasty berry soda 03.png" },
+  { name: "Bruno T.", item: "Batata Rústica", image: "/images/toasty batata rustica 03.png" },
+  { name: "Camila D.", item: "Toasty Costela", image: "/images/toasty costela 03.png" },
+  { name: "Gustavo A.", item: "Combo Clássico", image: "/images/combo classico.png" },
+  { name: "Isabela N.", item: "Onion Rings", image: "/images/toasty onion ring 03.png" },
+  { name: "Thiago F.", item: "Citrus Fresh", image: "/images/toasty citrus fresh 03.png" },
 ];
 
 export default function SocialNotification() {
@@ -95,16 +95,19 @@ export default function SocialNotification() {
             style={{
               width: "40px",
               height: "40px",
-              borderRadius: "50%",
-              background: "rgba(200,148,62,0.15)",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              fontSize: "1.2rem",
+              borderRadius: "10px",
+              overflow: "hidden",
               flexShrink: 0,
+              position: "relative",
             }}
           >
-            {current.emoji}
+            <Image
+              src={current.image}
+              alt={current.item}
+              fill
+              sizes="40px"
+              style={{ objectFit: "cover" }}
+            />
           </div>
           <div style={{ flex: 1, minWidth: 0 }}>
             <p style={{ color: "var(--text-primary)", fontWeight: 700, fontSize: "0.82rem", lineHeight: 1.3 }}>
