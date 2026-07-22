@@ -12,14 +12,6 @@ import type { Order } from "@/store/cart";
 
 type OrderStage = "received" | "preparing" | "delivering" | "delivered";
 
-function getStage(order: Order): OrderStage {
-  const mins = (Date.now() - new Date(order.date).getTime()) / 60000;
-  if (mins >= 35) return "delivered";
-  if (mins >= 20) return "delivering";
-  if (mins >= 5) return "preparing";
-  return "received";
-}
-
 const stages = [
   { id: "received" as OrderStage, label: "Recebido", icon: Package, time: "0–5 min" },
   { id: "preparing" as OrderStage, label: "Preparando", icon: ChefHat, time: "5–20 min" },
@@ -37,7 +29,6 @@ export default function OrderStatusPage() {
   const [order, setOrder] = useState<Order | null>(null);
   const [loading, setLoading] = useState(true);
   const [currentStage, setCurrentStage] = useState<OrderStage>("received");
-  const [, setTick] = useState(0);
 
   const orderId = params.id as string;
 
@@ -46,7 +37,7 @@ export default function OrderStatusPage() {
 
     supabase
       .from("orders")
-      .select("*")
+      .select("id, items, total, created_at, status")
       .eq("id", orderId)
       .eq("user_id", user.id)
       .single()
@@ -57,23 +48,14 @@ export default function OrderStatusPage() {
             items: data.items,
             total: data.total,
             date: data.created_at,
+            status: data.status,
           };
           setOrder(o);
-          setCurrentStage(getStage(o));
+          setCurrentStage(data.status as OrderStage);
         }
         setLoading(false);
       });
   }, [user, orderId]);
-
-  // Update stage every minute
-  useEffect(() => {
-    if (!order) return;
-    const interval = setInterval(() => {
-      setCurrentStage(getStage(order));
-      setTick((t) => t + 1);
-    }, 60000);
-    return () => clearInterval(interval);
-  }, [order]);
 
   if (loading) {
     return (

@@ -7,6 +7,7 @@ import { useCartStore, type CartItem } from "@/store/cart";
 import { formatPrice } from "@/lib/utils";
 import Image from "next/image";
 import { useAuth } from "@/components/AuthProvider";
+import { useToast } from "@/components/Toast";
 import { supabase } from "@/lib/supabase-client";
 import Link from "next/link";
 
@@ -45,6 +46,7 @@ msg += `💰 *TOTAL: ${formatPrice(total)}*\n\n`;
 export default function CartSidebar() {
   const { items, isOpen, toggleCart, updateQuantity, removeItem, total, saveOrder } = useCartStore();
   const { user } = useAuth();
+  const { showToast } = useToast();
   const [confirmed, setConfirmed] = useState(false);
   const [confirming, setConfirming] = useState(false);
   const [showAddressForm, setShowAddressForm] = useState(false);
@@ -63,7 +65,12 @@ export default function CartSidebar() {
     if (!user || confirming) return;
     setConfirming(true);
     snapshotRef.current = { items: [...items], total: total() };
-    await saveOrder(user.id);
+    const result = await saveOrder(user.id);
+    if (!result) {
+      showToast("Erro ao confirmar pedido. Tente novamente.");
+      setConfirming(false);
+      return;
+    }
     setConfirmed(true);
     setConfirming(false);
   };

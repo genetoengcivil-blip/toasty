@@ -26,6 +26,7 @@ export interface Order {
   items: CartItem[];
   total: number;
   date: string;
+  status?: string;
 }
 
 interface CartState {
@@ -133,18 +134,18 @@ export const useCartStore = create<CartState>()((set, get) => ({
     const snapshot = { items: [...items], total: total() };
     const { data, error } = await supabase
       .from("orders")
-      .insert({ user_id: userId, items, total: total() })
+      .insert({ user_id: userId, items, total: total(), status: "received" })
       .select()
       .single();
+    if (error) return null;
     set({ items: [] });
     saveCart(userId, []);
-    if (error) return null;
     return { id: data.id, ...snapshot, date: data.created_at };
   },
   getOrders: async (userId: string) => {
     const { data, error } = await supabase
       .from("orders")
-      .select("*")
+      .select("id, items, total, created_at, status")
       .eq("user_id", userId)
       .order("created_at", { ascending: false });
     if (error || !data) return [];
@@ -153,6 +154,7 @@ export const useCartStore = create<CartState>()((set, get) => ({
       items: o.items,
       total: o.total,
       date: o.created_at,
+      status: o.status ?? "received",
     }));
   },
   total: () =>

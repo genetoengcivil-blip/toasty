@@ -16,7 +16,7 @@ export default function Hero() {
         loop
         muted
         playsInline
-        preload="auto"
+        preload="metadata"
         className="absolute inset-0 w-full h-full object-cover"
         style={{ filter: "brightness(0.4) saturate(1.2)" }}
       >
@@ -103,7 +103,26 @@ export default function Hero() {
           <a href="#salgados" className="btn-primary" style={{ fontSize: "clamp(0.85rem, 2vw, 1rem)", padding: "clamp(14px, 3vw, 18px) clamp(24px, 5vw, 40px)" }}>
             Pedir Agora
           </a>
-          <a href="#salgados" className="btn-outline" style={{ fontSize: "clamp(0.85rem, 2vw, 1rem)", padding: "clamp(13px, 3vw, 17px) clamp(22px, 5vw, 38px)" }}>
+          <a
+            href="#salgados"
+            className="btn-outline"
+            style={{
+              fontSize: "clamp(0.85rem, 2vw, 1rem)",
+              padding: "clamp(13px, 3vw, 17px) clamp(22px, 5vw, 38px)",
+              color: "white",
+              borderColor: "rgba(255,255,255,0.25)",
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.borderColor = "#C8943E";
+              e.currentTarget.style.color = "#C8943E";
+              e.currentTarget.style.background = "rgba(200,148,62,0.06)";
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.borderColor = "rgba(255,255,255,0.25)";
+              e.currentTarget.style.color = "white";
+              e.currentTarget.style.background = "transparent";
+            }}
+          >
             Explorar Cardápio
           </a>
         </motion.div>

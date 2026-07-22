@@ -28,7 +28,10 @@ export default function SocialNotification() {
     const available = fakeOrders
       .map((o, i) => ({ o, i }))
       .filter(({ i }) => !used.has(i));
-    if (available.length === 0) return;
+    if (available.length === 0) {
+      setUsed(new Set());
+      return;
+    }
 
     const pick = available[Math.floor(Math.random() * available.length)];
     setUsed((prev) => new Set([...prev, pick.i]));

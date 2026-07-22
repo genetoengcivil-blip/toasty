@@ -11,7 +11,6 @@
   --color-dark-elevated: #121212;
   --font-sans: var(--font-inter), system-ui, sans-serif;
   --font-serif: var(--font-playfair), Georgia, serif;
-  --font-mono: var(--font-geist-mono);
 }
 
 :root {
@@ -63,22 +62,15 @@
   box-sizing: border-box;
 }
 
-*,
-*::before,
-*::after {
-  transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
-}
-
-/* Disable transitions for animated/interactive elements */
-button, a, input, textarea, select, video, audio, [data-framer-motion] {
-  transition: none !important;
+/* Theme transition on root elements only — no wildcard */
+html, body {
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 html {
   scroll-behavior: smooth;
   background: var(--bg-page);
   color: var(--text-primary);
-  transition: background-color 0.35s ease, color 0.35s ease;
 }
 
 body {

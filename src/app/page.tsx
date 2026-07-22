@@ -1,3 +1,4 @@
+import dynamic from "next/dynamic";
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
 import MenuSearch from "@/components/MenuSearch";
@@ -5,11 +6,12 @@ import MenuSection from "@/components/MenuSection";
 import CombosSection from "@/components/CombosSection";
 import SidesSection from "@/components/SidesSection";
 import DrinksSection from "@/components/DrinksSection";
-import Depoimentos from "@/components/Depoimentos";
 import Footer from "@/components/Footer";
-import ProductDrawer from "@/components/ProductDrawer";
-import CartSidebar from "@/components/CartSidebar";
-import FloatingCartBar from "@/components/FloatingCartBar";
+
+const Depoimentos = dynamic(() => import("@/components/Depoimentos"));
+const ProductDrawer = dynamic(() => import("@/components/ProductDrawer"));
+const CartSidebar = dynamic(() => import("@/components/CartSidebar"));
+const FloatingCartBar = dynamic(() => import("@/components/FloatingCartBar"));
 
 export default function Home() {
   return (
