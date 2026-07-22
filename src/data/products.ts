@@ -21,12 +21,16 @@ export interface Product {
 const salgadoExtras: Extra[] = [
   { id: "Queijo Extra", price: 4.9 },
   { id: "Carne Extra", price: 7.9 },
-  { id: "Molho Especial", price: 3.9 },
+  { id: "Molho Clássico", price: 5.9 },
+  { id: "Molho BBQ", price: 5.9 },
+  { id: "Molho Mustard", price: 5.9 },
 ];
 
 const veggieExtras: Extra[] = [
   { id: "Queijo Extra", price: 4.9 },
-  { id: "Molho Especial", price: 3.9 },
+  { id: "Molho Clássico", price: 5.9 },
+  { id: "Molho BBQ", price: 5.9 },
+  { id: "Molho Mustard", price: 5.9 },
 ];
 
 export const products: Product[] = [
@@ -42,7 +46,7 @@ export const products: Product[] = [
       "Tomate",
       "Molho especial",
     ],
-    price: 32.9,
+    price: 34.9,
     category: "salgado",
     image: "/images/toasty classico 03.png",
     imageAlt: "/images/toasty classico.png",
@@ -61,7 +65,7 @@ export const products: Product[] = [
       "Rúcula",
       "Molho de ervas",
     ],
-    price: 32.9,
+    price: 34.9,
     category: "salgado",
     image: "/images/toasty chicken 03.png",
     imageAlt: "/images/toasty chicken.png",
@@ -73,14 +77,14 @@ export const products: Product[] = [
     id: "toasty-calabresa",
     name: "Toasty Calabresa",
     description:
-      "Calabresa artesanal fatiada, cebola caramelizada, queijo provolone e azeite.",
+      "Calabresa artesanal fatiada, cebola caramelizada, queijo mussarela e azeite.",
     ingredients: [
       "Calabresa artesanal",
       "Cebola caramelizada",
       "Queijo mussarela",
       "Azeite",
     ],
-    price: 32.9,
+    price: 34.9,
     category: "salgado",
     image: "/images/toasty calabresa 03.png",
     imageAlt: "/images/toasty calabresa.png",
@@ -99,7 +103,7 @@ export const products: Product[] = [
       "Pickles de cebola",
       "Molho BBQ",
     ],
-    price: 32.9,
+    price: 39.9,
     category: "salgado",
     image: "/images/toasty costela 03.png",
     imageAlt: "/images/toasty costela.png",
@@ -171,7 +175,9 @@ export const drinks = [
   { id: "citrus-fresh", name: "Citrus Fresh", description: "Limão siciliano com hortelã e gelo. 400ml.", ingredients: ["Limão siciliano", "Hortelã", "Gelo"], price: 18.9, image: "/images/toasty citrus fresh 03.png", emoji: "🍋", category: "drink" as const },
   { id: "kiwi-breeze", name: "Kiwi Breeze", description: "Kiwi natural com sprite e hortelã. 400ml.", ingredients: ["Kiwi", "Sprite", "Hortelã"], price: 18.9, image: "/images/toasty kiwi breeze 03.png", emoji: "🥝", category: "drink" as const },
   { id: "coca-cola", name: "Coca-Cola", description: "Coca-Cola gelada lata 350ml.", ingredients: ["Coca-Cola 350ml"], price: 8.9, image: "/images/coca cola.png", emoji: "🥤", category: "drink" as const },
+  { id: "coca-cola-1l", name: "Coca-Cola 1L", description: "Coca-Cola gelada garrafa 1 litro.", ingredients: ["Coca-Cola 1L"], price: 18.9, image: "/images/coca cola 1 litro.png", emoji: "🥤", category: "drink" as const },
   { id: "guarana", name: "Guaraná", description: "Guaraná Antarctica gelado lata 350ml.", ingredients: ["Guaraná Antarctica 350ml"], price: 8.9, image: "/images/guarana antartica.png", emoji: "🥤", category: "drink" as const },
+  { id: "guarana-1l", name: "Guaraná 1L", description: "Guaraná Antarctica gelado garrafa 1 litro.", ingredients: ["Guaraná Antarctica 1L"], price: 18.9, image: "/images/guarana 1 litro.png", emoji: "🥤", category: "drink" as const },
   { id: "fanta-laranja", name: "Fanta Laranja", description: "Fanta Laranja gelada lata 350ml.", ingredients: ["Fanta Laranja 350ml"], price: 8.9, image: "/images/fanta laranja.png", emoji: "🥤", category: "drink" as const },
   { id: "pepsi", name: "Pepsi", description: "Pepsi gelada lata 350ml.", ingredients: ["Pepsi 350ml"], price: 8.9, image: "/images/pepsi.png", emoji: "🥤", category: "drink" as const },
 ];
@@ -181,9 +187,6 @@ export const sides = [
   { id: "onion-rings", name: "Onion Rings", description: "Anéis de cebola empanados crocantes.", ingredients: ["Cebola", "Farinha empanada", "Temperos"], price: 15.9, image: "/images/toasty onion ring 03.png", emoji: "🧅", category: "side" as const },
   { id: "chips-rustico", name: "Chips Rústico", description: "Chips de batata artesanal com sal rosa.", ingredients: ["Batata artesanal", "Sal rosa", "Temperos"], price: 15.9, image: "/images/toasty chips rustica 03.png", emoji: "🥨", category: "side" as const },
   { id: "salada-green", name: "Salada Green", description: "Mix de folhas, tomate cereja e vinagrete balsâmico.", ingredients: ["Mix de folhas", "Tomate cereja", "Vinagrete balsâmico"], price: 15.9, image: "/images/toasty salada green 03.png", emoji: "🥗", category: "side" as const },
-  { id: "molho-classico", name: "Molho Clássico", description: "Molho especial da casa Toasty.", ingredients: ["Molho especial"], price: 4.9, image: "/images/molho toasty classico.png", emoji: "🫙", category: "side" as const },
-  { id: "molho-bbq", name: "Molho BBQ", description: "Molho barbecue defumado Toasty.", ingredients: ["Molho barbecue"], price: 4.9, image: "/images/molho toasty barbecue.png", emoji: "🫙", category: "side" as const },
-  { id: "molho-mustard", name: "Molho Mustard", description: "Molho mostarda especial Toasty.", ingredients: ["Molho mostarda"], price: 4.9, image: "/images/molho toasty mustard.png", emoji: "🫙", category: "side" as const },
 ];
 
 export const combos: (Omit<Product, "extras"> & { originalPrice: number; savings: number })[] = [
@@ -206,8 +209,8 @@ export const combos: (Omit<Product, "extras"> & { originalPrice: number; savings
     description: "2 Toastys + 2 Batatas Rústicas + 2 Refrigerantes",
     ingredients: ["2 Toastys à escolha", "2 Batatas Rústicas", "2 Refrigerantes"],
     originalPrice: 116.4,
-    price: 84.9,
-    savings: 31.5,
+    price: 89.9,
+    savings: 26.5,
     image: "/images/combo duplo.png",
     category: "combo",
     emoji: "🔥",
@@ -218,12 +221,12 @@ export const combos: (Omit<Product, "extras"> & { originalPrice: number; savings
     description: "4 Toastys + 2 Batatas + Refrigerante de 1 Litro",
     ingredients: ["4 Toastys à escolha", "2 Batatas", "Refrigerante 1L"],
     originalPrice: 181.4,
-    price: 129.9,
-    savings: 51.5,
+    price: 139.9,
+    savings: 41.5,
     image: "/images/combo familia.png",
     category: "combo",
     emoji: "👑",
-    badge: "Economize R$51",
+    badge: "Economize R$41",
   },
 ];
 
