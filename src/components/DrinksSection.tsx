@@ -46,13 +46,13 @@ export default function DrinksSection() {
       </div>
       <div style={{ marginBottom: "32px" }}>
         <p style={{ fontSize: "0.7rem", fontWeight: 700, color: "var(--text-faint)", textTransform: "uppercase", letterSpacing: "1px", marginBottom: "12px" }}>Autorais — 400ml</p>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: "12px" }}>
+        <div className="product-grid">
           {autorais.map((item, i) => <ProductCard key={item.id} item={item} i={i} favIds={favIds} onFavChange={handleFavChange} avgRating={avgRating} />)}
         </div>
       </div>
       <div>
         <p style={{ fontSize: "0.7rem", fontWeight: 700, color: "var(--text-faint)", textTransform: "uppercase", letterSpacing: "1px", marginBottom: "12px" }}>Refrigerantes Lata — 350ml</p>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: "12px" }}>
+        <div className="product-grid">
           {lata.map((item, i) => <ProductCard key={item.id} item={item} i={i} favIds={favIds} onFavChange={handleFavChange} avgRating={avgRating} />)}
         </div>
       </div>

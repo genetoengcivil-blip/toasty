@@ -321,6 +321,18 @@ body {
   }
 }
 
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 280px), 1fr));
+  gap: 12px;
+}
+
+@media (max-width: 540px) {
+  .product-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
 .page-skeleton {
   position: fixed;
   inset: 0;
