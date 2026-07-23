@@ -22,7 +22,7 @@ export default function CombosSection() {
         <div className="section-divider" />
       </div>
 
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(min(100%, 300px), 1fr))", gap: "20px" }}>
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
         {combos.map((combo, i) => (
           <ComboCard key={combo.id} combo={combo} index={i} onOpen={openDrawer} />
         ))}
