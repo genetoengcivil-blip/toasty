@@ -12,6 +12,14 @@ import type { Order } from "@/store/cart";
 
 type OrderStage = "received" | "preparing" | "delivering" | "delivered";
 
+function getStageFromDate(date: string): OrderStage {
+  const mins = (Date.now() - new Date(date).getTime()) / 60000;
+  if (mins >= 35) return "delivered";
+  if (mins >= 20) return "delivering";
+  if (mins >= 5) return "preparing";
+  return "received";
+}
+
 const stages = [
   { id: "received" as OrderStage, label: "Recebido", icon: Package, time: "0–5 min" },
   { id: "preparing" as OrderStage, label: "Preparando", icon: ChefHat, time: "5–20 min" },
@@ -37,7 +45,7 @@ export default function OrderStatusPage() {
 
     supabase
       .from("orders")
-      .select("id, items, total, created_at, status")
+      .select("id, items, total, created_at")
       .eq("id", orderId)
       .eq("user_id", user.id)
       .single()
@@ -48,10 +56,9 @@ export default function OrderStatusPage() {
             items: data.items,
             total: data.total,
             date: data.created_at,
-            status: data.status,
           };
           setOrder(o);
-          setCurrentStage(data.status as OrderStage);
+          setCurrentStage(getStageFromDate(data.created_at));
         }
         setLoading(false);
       });

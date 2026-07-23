@@ -134,10 +134,13 @@ export const useCartStore = create<CartState>()((set, get) => ({
     const snapshot = { items: [...items], total: total() };
     const { data, error } = await supabase
       .from("orders")
-      .insert({ user_id: userId, items, total: total(), status: "received" })
+      .insert({ user_id: userId, items, total: total() })
       .select()
       .single();
-    if (error) return null;
+    if (error) {
+      console.error("saveOrder error:", error.message, error.details, error.hint);
+      return null;
+    }
     set({ items: [] });
     saveCart(userId, []);
     return { id: data.id, ...snapshot, date: data.created_at };
@@ -145,7 +148,7 @@ export const useCartStore = create<CartState>()((set, get) => ({
   getOrders: async (userId: string) => {
     const { data, error } = await supabase
       .from("orders")
-      .select("id, items, total, created_at, status")
+      .select("id, items, total, created_at")
       .eq("user_id", userId)
       .order("created_at", { ascending: false });
     if (error || !data) return [];
@@ -154,7 +157,6 @@ export const useCartStore = create<CartState>()((set, get) => ({
       items: o.items,
       total: o.total,
       date: o.created_at,
-      status: o.status ?? "received",
     }));
   },
   total: () =>
