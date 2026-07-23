@@ -47,7 +47,7 @@ export default function MenuSection({ id, title, subtitle, category }: MenuSecti
         <p style={{ color: "var(--text-muted)", fontSize: "clamp(0.85rem, 2vw, 1.1rem)", maxWidth: "500px", margin: "0 auto 20px" }}>{subtitle}</p>
         <div className="section-divider" />
       </div>
-      <div className="grid grid-cols-2 max-sm:grid-cols-1 gap-3">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
         {filtered.map((product, i) => (
           <ProductCard key={product.id} item={product} i={i} favIds={favIds} onFavChange={handleFavChange} avgRating={avgRating} />
         ))}

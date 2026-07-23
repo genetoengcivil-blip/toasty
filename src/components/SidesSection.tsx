@@ -37,7 +37,7 @@ export default function SidesSection() {
         <p style={{ color: "var(--text-muted)", fontSize: "clamp(0.85rem, 2vw, 1.1rem)", maxWidth: "500px", margin: "0 auto 20px" }}>Completam seu pedido.</p>
         <div className="section-divider" />
       </div>
-      <div className="grid grid-cols-2 max-sm:grid-cols-1 gap-3">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
         {sides.map((item, i) => (
           <ProductCard key={item.id} item={item} i={i} favIds={favIds} onFavChange={handleFavChange} avgRating={avgRating} />
         ))}

@@ -65,7 +65,7 @@ export default function FavoritosPage() {
             <p style={{ color: "var(--text-faint)", fontSize: "0.85rem" }}>Toque no coração dos itens para salvar.</p>
           </div>
         ) : (
-          <div className="grid grid-cols-2 max-sm:grid-cols-1 gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             {favItems.map((item, i) => (
               <ProductCard key={item.id} item={item} i={i} favIds={favIds} onFavChange={handleFavChange} avgRating={null} />
             ))}
